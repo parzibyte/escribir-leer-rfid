@@ -11,7 +11,7 @@ Pines para conectar el lector
 // Constantes para el ejemplo
 #define MODO_LECTURA 1
 #define MODO_ESCRITURA 2
-#define MODO MODO_LECTURA
+#define MODO MODO_ESCRITURA
 MFRC522 lector(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key clave;
 
@@ -69,14 +69,14 @@ bool escribir(char cadena[LONGITUD_BYTES_ESCRITURA])
     return false;
   }
 
-  byte bloque, buferEscritura[LONGITUD_BYTES_ESCRITURA];
+  byte bloque = 1;
+  byte buferEscritura[LONGITUD_BYTES_ESCRITURA];
   // Copiar cadena al búfer
   for (uint8_t i = 0; i < LONGITUD_BYTES_ESCRITURA; i++)
   {
     buferEscritura[i] = cadena[i];
   }
   MFRC522::StatusCode estado;
-  bloque = 1;
   estado = lector.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, bloque, &clave, &(lector.uid));
   if (estado != MFRC522::STATUS_OK)
   {
